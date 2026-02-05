@@ -1,2 +1,103 @@
 # c2-control
 Ramtek
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>C2 Command Control Panel (Demo)</title>
+<style>
+body {
+  font-family: Arial;
+  background: #0a0a0a;
+  color: #00ff99;
+  text-align: center;
+  padding-top: 20px;
+}
+
+button {
+  background: #00ff99;
+  border: none;
+  padding: 12px 20px;
+  margin: 6px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.panel {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #00ff99;
+}
+
+.log {
+  text-align: left;
+  max-width: 90%;
+  margin: auto;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<h2>🧠 Command & Control Panel (Learning Demo)</h2>
+
+<div class="panel">
+<button onclick="sendCommand('PING')">Send PING</button>
+<button onclick="sendCommand('STATUS')">Request STATUS</button>
+<button onclick="sendCommand('WORK')">Assign WORK</button>
+<button onclick="sendCommand('RESET')">RESET Bots</button>
+</div>
+
+<div class="panel log" id="log"></div>
+
+<script>
+let bots = [
+  {id: "BOT-001", status: "idle"},
+  {id: "BOT-002", status: "idle"},
+  {id: "BOT-003", status: "idle"}
+];
+
+function log(msg) {
+  document.getElementById("log").innerHTML += "<br>" + msg;
+}
+
+function sendCommand(command) {
+  log("📡 SERVER → Command Sent: " + command);
+
+  bots.forEach(bot => {
+    setTimeout(() => handleBot(bot, command), randomDelay());
+  });
+}
+
+function handleBot(bot, command) {
+  if (command === "PING") {
+    log("🤖 " + bot.id + " → PONG");
+  }
+
+  if (command === "STATUS") {
+    log("🤖 " + bot.id + " → Status: " + bot.status);
+  }
+
+  if (command === "WORK") {
+    bot.status = "working";
+    log("🤖 " + bot.id + " → Started Work...");
+    setTimeout(() => {
+      bot.status = "idle";
+      log("🤖 " + bot.id + " → Work Completed");
+    }, randomDelay());
+  }
+
+  if (command === "RESET") {
+    bot.status = "idle";
+    log("🤖 " + bot.id + " → Reset Complete");
+  }
+}
+
+function randomDelay() {
+  return Math.floor(Math.random() * 2000) + 500;
+}
+</script>
+
+</body>
+</html>
